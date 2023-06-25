@@ -9,9 +9,17 @@ namespace API.Controllers
     {
         [HttpGet]
 
-        public string GetProduct()
+        public string GetProducts()
         {
             return "XXXXXXXX";
+        }
+
+
+        [HttpGet("id")]
+
+        public string GetProduct(int id)
+        {
+            return "This is a product";
         }
     }
 }
