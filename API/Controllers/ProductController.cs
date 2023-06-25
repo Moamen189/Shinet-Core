@@ -11,7 +11,7 @@ namespace API.Controllers
 
         public string GetProducts()
         {
-            return "XXXXXXXX";
+            return "this is a list of products";
         }
 
 
