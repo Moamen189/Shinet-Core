@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using API.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -7,6 +8,13 @@ namespace API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly StoreContext _storeContext;
+
+        public ProductController(StoreContext storeContext)
+        {
+            this._storeContext = storeContext;
+        }
+
         [HttpGet]
 
         public string GetProducts()
