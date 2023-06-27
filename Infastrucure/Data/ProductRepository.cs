@@ -18,9 +18,9 @@ namespace Infastrucure.Data
             this._storeContext = storeContext;
         }
 
-        public Task<IReadOnlyList<ProductBrand>> GetProductBrandAsync()
+        public async Task<IReadOnlyList<ProductBrand>> GetProductBrandAsync()
         {
-            throw new NotImplementedException();
+            return await _storeContext.ProductBrands.ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
@@ -35,9 +35,10 @@ namespace Infastrucure.Data
             return await _storeContext.Products.ToListAsync();
         }
 
-        public Task<IReadOnlyList<ProductType>> GetProductTypeAsync()
+        public async Task<IReadOnlyList<ProductType>> GetProductTypeAsync()
         {
-            throw new NotImplementedException();
+            return await _storeContext.ProductTypes.ToListAsync();
+            
         }
     }
 }
