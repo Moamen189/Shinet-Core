@@ -17,18 +17,27 @@ namespace Infastrucure.Data
         {
             this._storeContext = storeContext;
         }
+
+        public Task<IReadOnlyList<ProductBrand>> GetProductBrandAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Product> GetProductByIdAsync(int id)
         {
         
                 return await _storeContext.Products.FindAsync(id);
-
-
      
         }
 
         public async Task<IReadOnlyList<Product>> GetProductsAsync()
         {
             return await _storeContext.Products.ToListAsync();
+        }
+
+        public Task<IReadOnlyList<ProductType>> GetProductTypeAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
