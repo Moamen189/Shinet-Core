@@ -13,7 +13,7 @@ namespace Infastrucure.Data
     {
         private readonly StoreContext _storeContext;
 
-        public ProductRepository(StoreContext storeContext)
+        public ProductRepository(StoreContext storeContext )
         {
             this._storeContext = storeContext;
         }

@@ -14,18 +14,24 @@ namespace API.Controllers
     {
      
         private readonly IProductRepository _productRepository;
+        private readonly IGenericRepository<Product> _productRepo;
+        private readonly IGenericRepository<ProductBrand> _productBrandRepo;
+        private readonly IGenericRepository<ProductType> _productTypeRepo;
 
-        public ProductController(IProductRepository ProductRepository)
+        public ProductController(IProductRepository ProductRepository , IGenericRepository<Product> ProductRepo , IGenericRepository<ProductBrand> ProductBrandRepo , IGenericRepository<ProductType> ProductTypeRepo )
         {
           
             _productRepository = ProductRepository;
+            _productRepo = ProductRepo;
+            _productBrandRepo = ProductBrandRepo;
+            _productTypeRepo = ProductTypeRepo;
         }
 
         [HttpGet]
 
         public async Task< ActionResult<List<Product>>> GetProducts()
         {
-            var Products = await _productRepository.GetProductsAsync();
+            var Products = await _productRepo.GetAllAsync();
             return Ok(Products);
         }
 
@@ -34,22 +40,22 @@ namespace API.Controllers
 
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _productRepository.GetProductByIdAsync(id);
+            var product = await _productRepo.GetByIdAsync(id);
             return product;
         }
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductsBrand()
         {
-            var ProductBrand = await _productRepository.GetProductBrandAsync();
+            var ProductBrand = await _productBrandRepo.GetAllAsync();
 
             return Ok(ProductBrand);
         }
 
         [HttpGet("types")]
-
+        
         public async Task<ActionResult<List<ProductType>>> GetProductsTypes()
         {
-            var ProductTypes = await _productRepository.GetProductTypeAsync();
+            var ProductTypes = await _productTypeRepo.GetAllAsync();
 
             return Ok (ProductTypes);
         }
