@@ -26,13 +26,13 @@ namespace Infastrucure.Data
         public async Task<Product> GetProductByIdAsync(int id)
         {
         
-                return await _storeContext.Products.FindAsync(id);
+                return await _storeContext.Products.Include(p => p.ProductBrand).Include(x => x.ProductType).FirstOrDefaultAsync(x => x.Id == id);
      
         }
 
         public async Task<IReadOnlyList<Product>> GetProductsAsync()
         {
-            return await _storeContext.Products.ToListAsync();
+            return await _storeContext.Products.Include(p => p.ProductBrand).Include(x => x.ProductType).ToListAsync();
         }
 
         public async Task<IReadOnlyList<ProductType>> GetProductTypeAsync()
