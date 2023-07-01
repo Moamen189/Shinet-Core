@@ -38,16 +38,7 @@ namespace API.Controllers
         {
             var spec = new ProductWithTypesAndBrandSpecification();
             var Products = await _productRepo.GetListWithSpec(spec);
-            return Products.Select(product => new ProductToReturnDto()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                PictureUrl = product.PictureUrl,
-                ProductBrand = product.ProductBrand.Name,
-                ProductType = product.ProductType.Name,
-            }).ToList();
+            return Ok(_mapper.Map<IReadOnlyList<ProductToReturnDto>>(Products));
         }
 
 
