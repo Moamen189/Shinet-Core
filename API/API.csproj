@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Infastrucure\Infastrucure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
