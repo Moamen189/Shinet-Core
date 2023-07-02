@@ -1,4 +1,5 @@
 
+using API.Middleware;
 using Core.Interfaces;
 using Infastrucure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
