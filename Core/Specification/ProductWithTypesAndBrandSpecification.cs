@@ -10,7 +10,8 @@ namespace Core.Specification
 {
     public class ProductWithTypesAndBrandSpecification : BaseSpecification<Product>
     {
-        public ProductWithTypesAndBrandSpecification(string sort)
+        public ProductWithTypesAndBrandSpecification(string sort, int? brandId, int? TypeId):base(X => !brandId.HasValue || X.ProductBrandId == brandId  
+             && !TypeId.HasValue || X.ProductTypeId == TypeId  )
         {
             addIncludes(X => X.ProductType);
             addIncludes(X => X.ProductBrand);
