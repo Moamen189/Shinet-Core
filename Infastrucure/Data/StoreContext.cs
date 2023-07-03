@@ -23,7 +23,7 @@ namespace Infastrucure.Data
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            if(Database.ProviderName == "microsoft.entityframeworkcore.sqlite")
+            if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
             {
                 foreach (var EntityType in modelBuilder.Model.GetEntityTypes())
                 {
