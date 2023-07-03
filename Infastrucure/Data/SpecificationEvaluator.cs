@@ -20,6 +20,16 @@ namespace Infastrucure.Data
                 query = query.Where(spec.Criteria);
             }
 
+            if (spec.OrderBy != null)
+            {
+                query = query.OrderBy(spec.OrderBy);
+            }
+
+            if (spec.OrderByDesending != null)
+            {
+                query = query.OrderByDescending(spec.OrderByDesending);
+            }
+
             query = spec.Includes.Aggregate(query , (current , include) => current.Include(include));
 
             return query;
