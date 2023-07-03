@@ -23,7 +23,7 @@ namespace Core.Specification
                     case "priceAsc":
                         AddOrderBy(P => P.Price); 
                         break;
-                    case "pricedsc":
+                    case "priceDsc":
                         AddOrderByDesending(P => P.Price);
                         break;
                     default: 

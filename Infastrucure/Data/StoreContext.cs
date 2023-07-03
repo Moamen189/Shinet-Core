@@ -22,6 +22,20 @@ namespace Infastrucure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            if(Database.ProviderName == "microsoft.entityframeworkcore.sqlite")
+            {
+                foreach (var EntityType in modelBuilder.Model.GetEntityTypes())
+                {
+                    var properities = EntityType.ClrType.GetProperties().Where(p => p.PropertyType == typeof(decimal));
+
+                    foreach (var property in properities)
+                    {
+                        modelBuilder.Entity(EntityType.Name).Property(property.Name).HasConversion<double>();
+                    }
+
+                }
+            }
         }
 
     }
