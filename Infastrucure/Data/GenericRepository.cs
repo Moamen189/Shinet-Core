@@ -19,7 +19,12 @@ namespace Infastrucure.Data
         {
             this._storeContext = storeContext;
         }
-        
+
+        public async Task<int> CountAsync(ISpecification<T> specification)
+        {
+            return await ApplySpecification(specification).CountAsync();
+        }
+
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
            return await _storeContext.Set<T>().ToListAsync();

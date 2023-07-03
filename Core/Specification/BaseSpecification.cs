@@ -51,7 +51,7 @@ namespace Core.Specification
 
         }
 
-        protected void ApplyPagging(int take , int skip)
+        protected void ApplyPagging(int skip , int take)
         {
             Take = take;
             Skip = skip;
