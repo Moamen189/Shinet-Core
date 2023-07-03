@@ -35,15 +35,15 @@ namespace API.Controllers
 
         [HttpGet]
 
-        public async Task< ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productSpecParams)
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productSpecParams)
         {
             var spec = new ProductWithTypesAndBrandSpecification(productSpecParams);
             var CountSpec = new ProductWithFilterForCountSpecification(productSpecParams);
             
-            var totalItems = await _productRepo.CountAsync(spec);
+            var totalItems = await _productRepo.CountAsync(CountSpec);
             var Products = await _productRepo.GetListWithSpec(spec);
 
-            var data = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(Products);
+            var data = _mapper.Map<IReadOnlyList<Product> , IReadOnlyList<ProductToReturnDto>>(Products);
             return Ok(new Pagination<ProductToReturnDto>(productSpecParams.PageIndex , productSpecParams.PageSize ,totalItems , data));
         }
 

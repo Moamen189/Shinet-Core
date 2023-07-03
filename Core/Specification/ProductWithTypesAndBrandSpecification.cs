@@ -10,7 +10,10 @@ namespace Core.Specification
 {
     public class ProductWithTypesAndBrandSpecification : BaseSpecification<Product>
     {
-        public ProductWithTypesAndBrandSpecification(ProductSpecParams productSpecParams):base(X => !productSpecParams.BrandId.HasValue || X.ProductBrandId == productSpecParams.BrandId
+        public ProductWithTypesAndBrandSpecification(ProductSpecParams productSpecParams):base(X => 
+            string.IsNullOrEmpty(productSpecParams.Search) || X.Name.ToLower().Contains( productSpecParams.Search) &&
+        
+             !productSpecParams.BrandId.HasValue || X.ProductBrandId == productSpecParams.BrandId
              && !productSpecParams.TypeId.HasValue || X.ProductTypeId == productSpecParams.TypeId)
         {
             addIncludes(X => X.ProductType);
@@ -18,9 +21,9 @@ namespace Core.Specification
             AddOrderBy(x => x.Name);
             ApplyPagging(productSpecParams.PageSize * (productSpecParams.PageIndex - 1) , productSpecParams.PageSize);
 
-            if (!string.IsNullOrEmpty(productSpecParams.sort))
+            if (!string.IsNullOrEmpty(productSpecParams.Sort))
             {
-                switch (productSpecParams.sort)
+                switch (productSpecParams.Sort)
                 {
                     case "priceAsc":
                         AddOrderBy(P => P.Price); 
@@ -29,7 +32,8 @@ namespace Core.Specification
                         AddOrderByDesending(P => P.Price);
                         break;
                     default: 
-                        AddOrderBy(P => P.Name); break;
+                        AddOrderBy(P => P.Name);
+                        break;
                 }
             }
 
