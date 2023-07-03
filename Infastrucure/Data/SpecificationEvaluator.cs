@@ -30,6 +30,10 @@ namespace Infastrucure.Data
                 query = query.OrderByDescending(spec.OrderByDesending);
             }
 
+            if (spec.IsPagingEnabled)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
             query = spec.Includes.Aggregate(query , (current , include) => current.Include(include));
 
             return query;
