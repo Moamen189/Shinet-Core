@@ -34,7 +34,7 @@ namespace API.Controllers
 
         [HttpGet]
 
-        public async Task< ActionResult<List<ProductToReturnDto>>> GetProducts()
+        public async Task< ActionResult<List<ProductToReturnDto>>> GetProducts(string sort)
         {
             var spec = new ProductWithTypesAndBrandSpecification(sort);
             var Products = await _productRepo.GetListWithSpec(spec);
