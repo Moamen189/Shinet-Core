@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Product } from './models/product';
+import { Pagination } from './models/Paging';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +13,13 @@ export class AppComponent implements OnInit {
   constructor(private httpClient:HttpClient){}
   products:any[] = [];
   ngOnInit(): void {
-    this.httpClient.get("https://localhost:44398/api/Product?pageSize=50").subscribe({
-      next:(response:any) => this.products = response.data ,
+    this.httpClient.get<Pagination<Product[]>>("https://localhost:44398/api/Product?pageSize=50").subscribe({
+      next:(response) =>{
+        console.log(response),
+
+        this.products = response.data
+      },
+
       error:error => console.log(error),
       complete: ()=> {
         console.log("Request Completed")
