@@ -13,7 +13,7 @@ export class ShopService {
   constructor(private http:HttpClient) { }
   baseUrl = "https://localhost:44398/api/"
   getProduct(brandId?:number , typeId?:number){
-    let params = new HttpParams
+    let params = new HttpParams();
     if(brandId){
       params = params.append('brandId', brandId)
     }

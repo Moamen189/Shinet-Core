@@ -29,7 +29,7 @@ export class ShopComponent implements OnInit {
 
  getProducts(){
 
-  this.ShopServices.getProduct().subscribe({
+  this.ShopServices.getProduct(this.brandsIdSelected , this.typesIdSelected).subscribe({
     next:response=>this.products = response.data,
     error:error=>console.log(error)
 
@@ -40,7 +40,7 @@ export class ShopComponent implements OnInit {
 
  getBrands(){
   this.ShopServices.getBrands().subscribe({
-    next:response=>this.Brands = response,
+    next:response=>this.Brands = [{id:0, name:'All'} , ...response],
     error:error=>console.log(error)
 
   })
@@ -48,10 +48,20 @@ export class ShopComponent implements OnInit {
  getTypes(){
 
   this.ShopServices.getTypes().subscribe({
-    next:response=>this.Types = response,
+    next:response=>this.Types = [{id:0, name:'All'} , ...response],
     error:error=>console.log(error)
 
   })
+ }
+
+ onBrandSelected(brandId:number){
+  this.brandsIdSelected = brandId
+  this.getProducts();
+ }
+
+ onTypeSelected(typeId:number){
+  this.typesIdSelected = typeId
+  this.getProducts();
  }
 
 }
