@@ -13,11 +13,19 @@
 
       <h5 class="text-warning ms-3">Brands</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item"></li>
+          <li class="list-group-item" *ngFor="let brand of Brands"
+              [value]="brand.id">
+              {{brand.name}}
+          </li>
+
+
       </ul>
       <h5 class="text-warning ms-3">Types</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item"></li>
+          <li class="list-group-item" *ngFor="let type of Types"
+              [value]="type.id">
+              {{type.name}}
+          </li>
       </ul>
     </section>
     <section class="col-9">
