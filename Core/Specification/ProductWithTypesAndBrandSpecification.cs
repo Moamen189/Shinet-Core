@@ -10,20 +10,20 @@ namespace Core.Specification
 {
     public class ProductWithTypesAndBrandSpecification : BaseSpecification<Product>
     {
-        public ProductWithTypesAndBrandSpecification(ProductSpecParams productSpecParams):base(X => 
-            string.IsNullOrEmpty(productSpecParams.Search) || X.Name.ToLower().Contains( productSpecParams.Search) &&
-        
-             !productSpecParams.BrandId.HasValue || X.ProductBrandId == productSpecParams.BrandId
-             && !productSpecParams.TypeId.HasValue || X.ProductTypeId == productSpecParams.TypeId)
+        public ProductWithTypesAndBrandSpecification(ProductSpecParams productParams):base(x =>
+            (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
+            (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId) &&
+            (!productParams.TypeId.HasValue || x.ProductTypeId == productParams.TypeId)
+            )
         {
             addIncludes(X => X.ProductType);
             addIncludes(X => X.ProductBrand);
             AddOrderBy(x => x.Name);
-            ApplyPagging(productSpecParams.PageSize * (productSpecParams.PageIndex - 1) , productSpecParams.PageSize);
+            ApplyPagging(productParams.PageSize * (productParams.PageIndex - 1) , productParams.PageSize);
 
-            if (!string.IsNullOrEmpty(productSpecParams.Sort))
+            if (!string.IsNullOrEmpty(productParams.Sort))
             {
-                switch (productSpecParams.Sort)
+                switch (productParams.Sort)
                 {
                     case "priceAsc":
                         AddOrderBy(P => P.Price); 
