@@ -46,14 +46,14 @@
         >
         </app-paging-header>
         <div class="d-flex mt-2">
-          <input
+          <input (keyup.enter)="onSearch()"
             type="text"
             placeholder="Search"
             class="form-control me-2"
             #search
           />
-          <button class="btn btn-outline-primary mx-2">Search</button>
-          <button class="btn btn-outline-success">Reset</button>
+          <button (click)="onSearch()" class="btn btn-outline-primary mx-2">Search</button>
+          <button (click)="onRest()" class="btn btn-outline-success">Reset</button>
         </div>
       </div>
 
