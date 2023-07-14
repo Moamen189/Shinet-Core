@@ -2,6 +2,8 @@
 using API.Middleware;
 using Core.Interfaces;
 using Infastrucure.Data;
+using Infastrucure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
@@ -17,6 +19,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+
+builder.Services.AddDbContext<AppIdentityDbContext>(opt =>
+{
+    opt.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection"));
 });
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
