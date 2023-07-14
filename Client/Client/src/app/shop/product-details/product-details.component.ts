@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ShopService } from '../shop.service';
 import { Product } from 'src/app/shared/models/product';
 import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-product-details',
@@ -12,7 +13,7 @@ export class ProductDetailsComponent implements OnInit {
   product?:Product;
   quantity=1;
 
-  constructor(private shopService:ShopService , private activatedRoute:ActivatedRoute) { }
+  constructor(private shopService:ShopService , private activatedRoute:ActivatedRoute , private bsService:BreadcrumbService) { }
 
   ngOnInit(): void {
     this.loadProduct()
@@ -25,6 +26,7 @@ export class ProductDetailsComponent implements OnInit {
     if (id) this.shopService.getProductId(+id).subscribe({
       next: product => {
         this.product = product;
+        this.bsService.set('@productDetails' , product.name)
 
       },
       error:error => console.log(error)
@@ -40,7 +42,10 @@ export class ProductDetailsComponent implements OnInit {
 
     decrementQuantity()
     {
-      this.quantity--;
+      if(this.quantity > 0){
+
+        this.quantity--;
+      }
     }
 
 

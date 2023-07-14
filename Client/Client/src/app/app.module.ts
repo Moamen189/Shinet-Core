@@ -9,6 +9,7 @@ import { ShopModule } from './shop/shop.module';
 import { HomeComponent } from './home/home/home.component';
 import { HomeModule } from './home/home.module';
 import { ErrorInterceptor } from './core/interceptor/error.interceptor';
+import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { ErrorInterceptor } from './core/interceptor/error.interceptor';
     HomeModule
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true}
+    {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true},
+    {provide:HTTP_INTERCEPTORS,useClass:LoadingInterceptor,multi:true}
+
   ],
   bootstrap: [AppComponent]
 })

@@ -10,6 +10,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { Toast, ToastrModule } from 'ngx-toastr';
 import { SectionHeaderComponent } from './section-header/section-header.component';
 import { BreadcrumbModule } from 'xng-breadcrumb';
+import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -22,8 +23,9 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
     }),
-    BreadcrumbModule
+    BreadcrumbModule,
+    NgxSpinnerModule
   ],
-  exports:[NavBarComponent , SectionHeaderComponent]
+  exports:[NavBarComponent , SectionHeaderComponent , NgxSpinnerModule]
 })
 export class CoreModule { }
