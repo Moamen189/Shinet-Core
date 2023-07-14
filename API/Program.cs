@@ -19,11 +19,10 @@ builder.Services.AddDbContext<StoreContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddSingleton<IConnectionMultiplexer>( opt => {
-
+builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
+{
     var options = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"));
     return ConnectionMultiplexer.Connect(options);
-
 });
 
 builder.Services.AddScoped<IBasketRepository , BasketRepository>();
