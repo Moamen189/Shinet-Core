@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from './shared/models/product';
 import { Pagination } from './shared/models/Paging';
 import { BasketService } from './basket/basket.service';
+import { AccountService } from './account/account.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import { BasketService } from './basket/basket.service';
 })
 export class AppComponent implements OnInit {
   title = 'Shinet Store';
-  constructor(private httpClient:HttpClient , private basketService:BasketService){}
+  constructor(private httpClient:HttpClient , private basketService:BasketService , private accountService:AccountService){}
   products:any[] = [];
   ngOnInit(): void {
     this.httpClient.get<Pagination<Product[]>>("https://localhost:44398/api/Product?pageSize=50").subscribe({
@@ -31,5 +32,10 @@ export class AppComponent implements OnInit {
 
     const basketId= localStorage.getItem("basket_Id");
     if(basketId) this.basketService.getBasket(basketId);
+  }
+  loadCurrentUser()
+  {
+    const token= localStorage.getItem('token');
+    this.accountService.loadCurrentUser(token).subscribe();
   }
 }
