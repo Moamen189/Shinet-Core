@@ -19,5 +19,9 @@ namespace Core.Interfaces
 
         Task< IReadOnlyList<T> > GetListWithSpec(ISpecification<T> specification);
 
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
+
     }
 }
