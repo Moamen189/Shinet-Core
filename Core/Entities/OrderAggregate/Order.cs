@@ -13,6 +13,16 @@ namespace Core.Entities.OrderAggregate
 
         }
 
+        public Order(string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod, IReadOnlyList<OrderItem> orderItems, decimal subtotal)
+        {
+            BuyerEmail = buyerEmail;
+            ShipToAddress = shipToAddress;
+            DeliveryMethod = deliveryMethod;
+            OrderItems = orderItems;
+            Subtotal = subtotal;
+           
+        }
+
         public string BuyerEmail { get; set; }
 
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
@@ -29,6 +39,11 @@ namespace Core.Entities.OrderAggregate
 
         public string PaymentIntentId { get; set; }
 
+
+        public decimal GetTotal()
+        {
+            return Subtotal + DeliveryMethod.Price;
+        }
 
 
 
