@@ -46,7 +46,7 @@ namespace Infastrucure.Services
             var deliveryMethodd = await DmRepo.GetByIdAsync(deliveryMethodId);
             ////calc subtotal 
             ///
-            var subtotal = items.Sum(item => item.Price* item.Quantity);
+            var subtotal = items.Sum(item => item.Price * item.Quantity);
            ///create order 
            var order = new Order( buyerEmail , shippingAddress, deliveryMethodd, items, subtotal);
             ///save to db 
