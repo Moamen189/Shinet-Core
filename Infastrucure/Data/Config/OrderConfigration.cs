@@ -26,7 +26,7 @@ namespace Infastrucure.Data.Config
             );
 
             builder.HasMany(o => o.OrderItems).WithOne().OnDelete(DeleteBehavior.Cascade);
-
+            
 
         }
     }
