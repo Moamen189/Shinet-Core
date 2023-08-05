@@ -20,9 +20,19 @@ namespace Infastrucure.Data
             this._storeContext = storeContext;
         }
 
+        public void Add(T entity)
+        {
+            _storeContext.Set<T>().Add(entity);   
+        }
+
         public async Task<int> CountAsync(ISpecification<T> specification)
         {
             return await ApplySpecification(specification).CountAsync();
+        }
+
+        public void Delete(T entity)
+        {
+            _storeContext.Set<T>().Remove(entity);
         }
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
@@ -44,6 +54,13 @@ namespace Infastrucure.Data
         public async Task<IReadOnlyList<T>> GetListWithSpec(ISpecification<T> specification)
         {
             return await ApplySpecification(specification).ToListAsync();
+        }
+
+        public void Update(T entity)
+        {
+            _storeContext.Set<T>().Attach(entity);
+            _storeContext.Entry(entity).State = EntityState.Modified;
+
         }
 
         private IQueryable<T> ApplySpecification (ISpecification<T> specification)
