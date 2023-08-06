@@ -56,13 +56,13 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
 
-        public async Task<ActionResult<Order>> GetOrderByIdForUser(int id)
+        public async Task<ActionResult<OrderToReturnDto>> GetOrderByIdForUser(int id)
         {
             var email = HttpContext.User?.RetrieveEmailFromPrincipal();
 
             var Order = await _orderService.GetOrderbyIdAsync(id, email);
             if (Order == null) return NotFound(new ApiResponse(404));
-            return Ok(Order);
+            return mapper.Map<OrderToReturnDto>(Order);
 
         }
 
