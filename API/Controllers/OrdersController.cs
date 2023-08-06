@@ -1,4 +1,5 @@
 ﻿using API.Dtos;
+using API.Errors;
 using API.Extentions;
 using AutoMapper;
 using Core.Entities.OrderAggregate;
@@ -33,6 +34,9 @@ namespace API.Controllers
             var address = mapper.Map<AddressDto , Address>(orderDto.ShipToAddress);
 
             var order = _orderService.CreateOrderAsync(email, orderDto.DeliveryMethodId , orderDto.BasketId ,address);
+            if (order == null) return BadRequest(new ApiResponse(400, "Problem Creating Order"));
+
+            return Ok(order);
         }
     }
 }
