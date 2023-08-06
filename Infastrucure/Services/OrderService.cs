@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Core.Interfaces;
+using Core.Specification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,19 +57,23 @@ namespace Infastrucure.Services
             return order;
         }
 
-        public Task<IReadOnlyList<DeliveryMethod>> GeDeliveryMethodsForUserAsync()
+        public async Task<IReadOnlyList<DeliveryMethod>> GeDeliveryMethodsForUserAsync()
         {
-            throw new NotImplementedException();
+           return await unitOfWork.Repository<DeliveryMethod>().GetAllAsync();
         }
 
-        public Task<Order> GetOrderbyIdAsync(int id, string buyerEmail)
+        public async Task<Order> GetOrderbyIdAsync(int id, string buyerEmail)
         {
-            throw new NotImplementedException();
+            var spec = new OrderWithItemsAndOrderingSpecification(id , buyerEmail);
+
+            return await unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
         }
 
-        public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+        public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
         {
-            throw new NotImplementedException();
+            var spec = new OrderWithItemsAndOrderingSpecification(buyerEmail);
+
+            return await unitOfWork.Repository<Order>().GetListWithSpec(spec);
         }
     }
 }
