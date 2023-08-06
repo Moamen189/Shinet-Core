@@ -7,6 +7,7 @@ using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+//using StackExchange.Redis;
 
 namespace API.Controllers
 {
@@ -38,5 +39,33 @@ namespace API.Controllers
 
             return Ok(order);
         }
+
+
+        [HttpGet]
+
+        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUsers()
+        {
+            var email = HttpContext.User?.RetrieveEmailFromPrincipal();
+
+            var orders = await _orderService.GetOrdersForUserAsync(email);
+
+            return Ok(orders);
+
+        }
+
+
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult<Order>> GetOrderByIdForUser(int id)
+        {
+            var email = HttpContext.User?.RetrieveEmailFromPrincipal();
+
+            var Order = await _orderService.GetOrderbyIdAsync(id, email);
+            if (Order == null) return NotFound(new ApiResponse(404));
+            return Ok(Order);
+
+        }
+
+
     }
 }
