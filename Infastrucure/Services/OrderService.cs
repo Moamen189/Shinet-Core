@@ -11,16 +11,12 @@ namespace Infastrucure.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IGenericRepository<Order> order;
-        private readonly IGenericRepository<Product> product;
-        private readonly IGenericRepository<DeliveryMethod> DmRepo;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IBasketRepository basket;
 
-        public OrderService(IGenericRepository<Order> Order , IGenericRepository<Product> Product, IGenericRepository<DeliveryMethod> DeliveryMethod , IBasketRepository Basket )
+        public OrderService( IUnitOfWork unitOfWork ,IBasketRepository Basket )
         {
-            order = Order;
-            product = Product;
-            DmRepo = DeliveryMethod;
+            this.unitOfWork = unitOfWork;
             basket = Basket;
         }
         public async Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethodId, string basketId, Address shippingAddress)
@@ -34,7 +30,7 @@ namespace Infastrucure.Services
 
             foreach (var item in baskett.Items)
             {
-                var productItem = await product.GetByIdAsync(item.Id);
+                var productItem = await unitOfWork.Repository<Product>().GetByIdAsync(item.Id);
                 var itemOrdered = new ProductItemOrdered(productItem.Id, productItem.Name, productItem.PictureUrl);
                 var orderItem = new OrderItem(itemOrdered, productItem.Price, item.Quantity);
                 items.Add(orderItem);
@@ -43,14 +39,19 @@ namespace Infastrucure.Services
 
             //get delivery from  repo
 
-            var deliveryMethodd = await DmRepo.GetByIdAsync(deliveryMethodId);
+            var deliveryMethodd = await unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
             ////calc subtotal 
             ///
             var subtotal = items.Sum(item => item.Price * item.Quantity);
            ///create order 
            var order = new Order( buyerEmail , shippingAddress, deliveryMethodd, items, subtotal);
+            unitOfWork.Repository<Order>().Add(order);
 
-            ///save to db 
+            ///save to db   
+            var result = await unitOfWork.Complete();
+            await basket.DeleteBasketAsync(basketId);
+
+            if (result <= 0) return null;
             ///return order   
             return order;
         }
