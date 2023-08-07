@@ -32,8 +32,7 @@ nameOnCard:['',Validators.required]
 })
 
 ngOnInit(): void {
-this.getAddressFormValues();
-this.getDeliveryMethodValue();
+
 }
 getAddressFormValues()
 {
