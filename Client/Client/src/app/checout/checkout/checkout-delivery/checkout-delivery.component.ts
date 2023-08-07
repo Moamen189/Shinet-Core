@@ -14,10 +14,12 @@ export class CheckoutDeliveryComponent implements OnInit {
   constructor(private checkoutServices:CheckoutService) { }
 
   ngOnInit(): void {
+
     this.checkoutServices.getDeliveryMethods().subscribe({
       next:dm => this.deliveryMethods = dm
 
     })
+
   }
 
 }
