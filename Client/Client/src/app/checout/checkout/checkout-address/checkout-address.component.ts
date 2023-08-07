@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout-address',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckoutAddressComponent implements OnInit {
 
+  @Input() checkoutForm?:FormGroup
   constructor() { }
 
   ngOnInit(): void {
