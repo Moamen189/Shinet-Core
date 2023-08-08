@@ -20,6 +20,9 @@ const routes: Routes = [
   {path: 'shop',  loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule)},
   {path: 'basket', canActivate:[AuthGuard],loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule)},
   {path: 'checkout', canActivate:[AuthGuard], loadChildren: () => import('./checout/checout.module').then(m => m.ChecoutModule)},
+  {path: 'orders', canActivate:[AuthGuard], loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule)
+   , data:{breadcrumb:'Orders'}},
+
   {path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule)},
 
 
