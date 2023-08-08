@@ -26,7 +26,8 @@ export class CheckoutPaymentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async submitOrder()
+
+  submitOrder()
   {
 
     const basket=this.basketService.getCurrentBsketValue();
@@ -38,6 +39,7 @@ export class CheckoutPaymentComponent implements OnInit {
     this.checkoutService.createOrder(orderToCreate).subscribe({
       next:order => {
         this.toastr.success('Order Created Successfully');
+        this.basketService.deleteLocalBasket();
         console.log(order)
       }
     })
