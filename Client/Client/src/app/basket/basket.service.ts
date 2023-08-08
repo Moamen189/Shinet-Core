@@ -4,6 +4,7 @@ import { Product } from '../shared/models/product';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map } from 'rxjs';
+import { DeliveryMethod } from '../shared/models/deliveryMethod';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class BasketService {
 
   private basketTotalSource=new BehaviorSubject<BasketTotals|null>(null);
   basketTotalSource$=this.basketTotalSource.asObservable();
+  shipping =0;
 
 
 
@@ -30,6 +32,15 @@ export class BasketService {
       }
     })
   }
+
+
+  setShippingPrice(deliveryMethods:DeliveryMethod){
+    this.shipping = deliveryMethods.price
+    this.calculateTotals();
+  }
+
+
+
 
   setBasket(basket: Basket) {
     return this.http.post<Basket>(this.baseUrl + 'basket', basket).subscribe({

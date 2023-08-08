@@ -6,6 +6,8 @@
            value={{method.id}}
            formControlName="deliveryMethod"
 
+           (click)="setShippingPrice(method)"
+
            class="form-check-input">
 
            <label for="{{method.id}}" class="form-check-label ms-2 mb-3">
