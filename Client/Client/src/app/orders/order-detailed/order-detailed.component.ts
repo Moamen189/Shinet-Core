@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { OrdersService } from '../orders.service';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { Order } from 'src/app/shared/models/order';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-order-detailed',
@@ -7,9 +11,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderDetailedComponent implements OnInit {
 
-  constructor() { }
+  order?:Order;
+  constructor(private orderService:OrdersService,private route:ActivatedRoute,
+    private bcService:BreadcrumbService) { }
 
   ngOnInit(): void {
+    const id= this.route.snapshot.paramMap.get('id');
+    id&&this.orderService.getOrderDetails(+id).subscribe({
+      next:order=>{
+        this.order=order;
+        this.bcService.set('@OrderDetailed',`Order # ${order.id} - ${order.status}`)
+      }
+    })
   }
 
 }
