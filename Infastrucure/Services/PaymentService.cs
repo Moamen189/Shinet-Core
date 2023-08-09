@@ -48,7 +48,41 @@ namespace Infastrucure.Services
                     item.Price = productItem.Price;
                 }
             }
-            
+
+
+            var service = new PaymentIntentService();
+
+            PaymentIntent intent;
+
+
+            if (string.IsNullOrEmpty(basket.PaymentIntentId))
+            {
+                var options = new PaymentIntentCreateOptions
+                {
+                    Amount = (long)basket.Items.Sum(i => i.Quantity * (i.Price * 100)) +
+                             (long)shippingPrice * 100,
+                    Currency = "usd",
+                    PaymentMethodTypes = new List<string> { "card" }
+                };
+
+                intent = await service.CreateAsync(options);
+                basket.PaymentIntentId = intent.Id;
+                basket.ClientSecret = intent.ClientSecret;
+            }
+            else
+            {
+                var options = new PaymentIntentUpdateOptions
+                {
+                    Amount = (long)basket.Items.Sum(i => i.Quantity * (i.Price * 100)) +
+                             (long)shippingPrice * 100
+                };
+
+                await service.UpdateAsync(basket.PaymentIntentId, options);
+            }
+
+            await basketRepository.UpdateBasketAsync(basket);
+            return basket;
+
         }
     }
 }
