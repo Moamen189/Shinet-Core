@@ -16,7 +16,7 @@ export class BasketService {
 
   private basketTotalSource=new BehaviorSubject<BasketTotals|null>(null);
   basketTotalSource$=this.basketTotalSource.asObservable();
-  shipping =0;
+
 
 
 
@@ -36,9 +36,10 @@ export class BasketService {
 
   setShippingPrice(deliveryMethods:DeliveryMethod){
     const basket = this.getCurrentBsketValue()
-    this.shipping = deliveryMethods.price
     if(basket){
       basket.deliveryMethodId = deliveryMethods.id
+      basket.shippingPrice = deliveryMethods.price
+
       this.setBasket(basket);
     }
 
