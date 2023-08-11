@@ -44,13 +44,28 @@ namespace Infastrucure.Services
             ////calc subtotal 
             ///
             var subtotal = items.Sum(item => item.Price * item.Quantity);
+
+            var spec = new OrderByPaymentIntentIdSpecification(baskett.PaymentIntentId);
+
+            var order = await unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            if(order!= null)
+            {
+                order.ShipToAddress= shippingAddress;
+                order.DeliveryMethod = deliveryMethodd;
+                order.Subtotal = subtotal;
+                unitOfWork.Repository<Order>().Update(order);
+            }else
+            {
+                order = new Order(buyerEmail, shippingAddress, deliveryMethodd, items, subtotal, baskett.PaymentIntentId);
+                unitOfWork.Repository<Order>().Add(order);
+            }
            ///create order 
-           var order = new Order( buyerEmail , shippingAddress, deliveryMethodd, items, subtotal , baskett.PaymentIntentId);
-            unitOfWork.Repository<Order>().Add(order);
+          
 
             ///save to db   
             var result = await unitOfWork.Complete();
-            await basket.DeleteBasketAsync(basketId);
+            //await basket.DeleteBasketAsync(basketId);
 
             if (result <= 0) return null;
             ///return order   
