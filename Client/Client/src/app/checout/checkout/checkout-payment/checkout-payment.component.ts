@@ -8,6 +8,7 @@ import { Basket } from 'src/app/shared/models/basket';
 import { OrderToCreate } from 'src/app/shared/models/order';
 import { Address } from 'src/app/shared/models/user';
 import { loadStripe, Stripe, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement } from '@stripe/stripe-js';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-checkout-payment',
@@ -101,7 +102,27 @@ export class CheckoutPaymentComponent implements OnInit {
     // }
   }
 
-
+  confirmPaymentWithStripe(basket: Basket | null) {
+    if(!basket) throw new Error('basket is null');
+    const result=this.stripe?.confirmCardPayment(basket.clientSecret!,{
+      payment_method:{
+        card:this.cardNumber!,
+        billing_details:{
+          name:this.checkoutForm?.get('paymentForm')?.get('nameOnCard')?.value
+        }
+      }
+    });
+    if(!result)
+    {
+      throw new Error('Error Attempting payment with stripe');
+    }
+    return result;
+  }
+  private async createOrder(basket: Basket | null) {
+    if(!basket) throw new Error('basket is null');
+    const orderToCreate= this.getOrderToCreate(basket);
+    return firstValueFrom(this.checkoutService.createOrder(orderToCreate));
+  }
 
 
 
@@ -123,3 +144,5 @@ export class CheckoutPaymentComponent implements OnInit {
     }
   }
 }
+
+
