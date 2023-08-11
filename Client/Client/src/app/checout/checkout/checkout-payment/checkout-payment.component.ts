@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CheckoutService } from '../../checkout.service';
@@ -7,7 +7,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { Basket } from 'src/app/shared/models/basket';
 import { OrderToCreate } from 'src/app/shared/models/order';
 import { Address } from 'src/app/shared/models/user';
-
+import { loadStripe, Stripe, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement } from '@stripe/stripe-js';
 
 @Component({
   selector: 'app-checkout-payment',
@@ -17,14 +17,50 @@ import { Address } from 'src/app/shared/models/user';
 export class CheckoutPaymentComponent implements OnInit {
 
   @Input() checkoutForm?:FormGroup
+  @ViewChild('cardNumber') cardNumberElement?:ElementRef;
+  @ViewChild('cardExpiry') cardExpiryElement?:ElementRef;
+  @ViewChild('cardCvc') cardCvcElement?:ElementRef;
 
+  stripe:Stripe|null=null;
+  cardNumber?:StripeCardNumberElement;
+  cardExpiry?:StripeCardExpiryElement;
+  cardCvc?:StripeCardCvcElement;
+
+  cardErrors:any;
   constructor(private toastr:ToastrService,
     private checkoutService:CheckoutService,
     private router:Router,
     private basketService:BasketService) { }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+      loadStripe('pk_test_51MkWvgJYk4zZyAMfRoFm71GR1wD7EidwWRzr4o9UaPl3IyN32JSsUEw3Yymleeo9hJpbOz6Ih61WRymBR2jfCZvj00PJ2gKGu4').then(stripe=>{
+        this.stripe=stripe;
+        const elements=stripe?.elements();
+        if(elements)
+        {
+          this.cardNumber=elements.create('cardNumber');
+          this.cardNumber.mount(this.cardNumberElement?.nativeElement);
+          this.cardNumber.on('change',event=>{
+            if(event.error)this.cardErrors=event.error.message
+            else this.cardErrors=null
+          })
+
+          this.cardExpiry=elements.create('cardExpiry');
+          this.cardExpiry.mount(this.cardExpiryElement?.nativeElement);
+          this.cardExpiry.on('change',event=>{
+            if(event.error)this.cardErrors=event.error.message
+            else this.cardErrors=null
+          })
+
+          this.cardCvc=elements.create('cardCvc');
+          this.cardCvc.mount(this.cardCvcElement?.nativeElement);
+          this.cardCvc.on('change',event=>{
+            if(event.error)this.cardErrors=event.error.message
+            else this.cardErrors=null
+          })
+        }
+      })
+    }
 
 
   submitOrder()
