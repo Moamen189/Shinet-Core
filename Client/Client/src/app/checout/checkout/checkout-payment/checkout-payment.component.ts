@@ -64,23 +64,29 @@ export class CheckoutPaymentComponent implements OnInit {
     }
 
 
-  submitOrder()
-  {
+    async submitOrder()
+    {
 
-    const basket=this.basketService.getCurrentBsketValue();
-    if(!basket) throw new Error('Cannot get the basket');
+      const basket=this.basketService.getCurrentBsketValue();
+      if(!basket) throw new Error('Cannot get the basket');
 
-    const orderToCreate = this.getOrderToCreate(basket);
-    if(!orderToCreate) return
-
-    this.checkoutService.createOrder(orderToCreate).subscribe({
-      next:order => {
-        this.toastr.success('Order Created Successfully');
-        this.basketService.deleteLocalBasket();
-        const navigationExtras:NavigationExtras ={state:order};
-            this.router.navigate(['checkout/success'],navigationExtras);
+      try {
+        const createdOrder= await this.createOrder(basket);
+        const paymentResult= await this.confirmPaymentWithStripe(basket);
+        if(paymentResult.paymentIntent)
+            {
+              this.basketService.deleteBasket(basket);
+              const navigationExtras:NavigationExtras ={state:createdOrder};
+              this.router.navigate(['checkout/success'],navigationExtras);
+            }
+            else
+            {
+              this.toastr.error(paymentResult.error.message)
+            }
+      } catch (error:any) {
+        this.toastr.error(error.message);
       }
-    })
+    }
 
 
 
@@ -100,7 +106,7 @@ export class CheckoutPaymentComponent implements OnInit {
     // } catch (error:any) {
     //   this.toastr.error(error.message);
     // }
-  }
+
 
   confirmPaymentWithStripe(basket: Basket | null) {
     if(!basket) throw new Error('basket is null');
