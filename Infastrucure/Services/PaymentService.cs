@@ -86,5 +86,15 @@ namespace Infastrucure.Services
             return basket;
 
         }
+
+        public Task<Core.Entities.OrderAggregate.Order> UpdateOrderPaymentFailed(string paymentIntentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Core.Entities.OrderAggregate.Order> UpdateOrderPaymentSuccedd(string paymentIntentId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
