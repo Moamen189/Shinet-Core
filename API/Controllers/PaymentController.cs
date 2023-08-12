@@ -61,13 +61,17 @@ namespace API.Controllers
                 case "payment_intent.succeeded":
                     intent = (PaymentIntent)stripeEvent.Data.Object;
                     _logger.LogInformation("Payment succeded", intent.Id);
+                    order = await paymentService.UpdateOrderPaymentSuccedd(intent.Id);
+                    _logger.LogInformation("order updated to Payment Succedd", order.Id);
                    
                     break;
 
                 case "payment_intent.payment_failed":
                     intent = (PaymentIntent)stripeEvent.Data.Object;
                     _logger.LogInformation("Payment failed", intent.Id);
-      
+                    order = await paymentService.UpdateOrderPaymentFailed(intent.Id);
+                    _logger.LogInformation("Order Updated to payment failed", order.Id);
+
                     break;
 
             }
