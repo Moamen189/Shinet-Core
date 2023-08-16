@@ -1,6 +1,7 @@
 # E-Commerce Application with .NET, Angular, Advanced Patterns, and 3-Tier Architecture
 
-![Project Banner](link_to_banner_image)
+![image](https://github.com/Moamen189/Shinet-Core/assets/79394414/ac3a4488-bc69-415b-bf57-824651f2f4f2)
+
 
 Welcome to our E-Commerce Application repository! This project is an exemplar of an advanced E-Commerce web application built using a modern technology stack and robust architectural patterns. Our application lets users browse products, securely make purchases through Stripe payment gateway, and utilizes Redis in-memory caching for improved performance. The project also incorporates the Generic Repository, Unit of Work, and Repository Pattern, enhancing code reusability and maintainability.
 
