@@ -55,9 +55,6 @@ Our project employs a 3-Tier Architecture to enhance modularity, scalability, an
 7. **Access the Application:**
    - Open your browser and navigate to `http://localhost:4200`.
 
-## Contributions
-
-We enthusiastically welcome contributions from the community! Feel free to open issues, submit pull requests, and provide feedback.
 
 ## MIT License
 
