@@ -1,5 +1,4 @@
-# E-Commerce Application with .NET, Angular, Advanced Patterns, and 3-Tier Architecture
-
+# Shinet-Core E-Commerce Application 
 ![image](https://github.com/Moamen189/Shinet-Core/assets/79394414/ac3a4488-bc69-415b-bf57-824651f2f4f2)
 
 
