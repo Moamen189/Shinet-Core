@@ -38,7 +38,7 @@ Our project employs a 3-Tier Architecture to enhance modularity, scalability, an
 
 ## Getting Started
 
-1. **Clone the Repository:** `git clone https://github.com/yourusername/e-commerce-app.git`
+1. **Clone the Repository:** `https://github.com/Moamen189/Shinet-Core`
 2. **Frontend Setup:**
    - Navigate to the `frontend` directory.
    - Install dependencies: `npm install`
